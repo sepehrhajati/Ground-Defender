@@ -1,21 +1,24 @@
-// نقطه شروع برنامه
+// Application Entry Point
+
 
 let game;
 
-// اجرا پس از بارگذاری کامل صفحه
+
+// Execute after full page load
 window.addEventListener('DOMContentLoaded', () => {
     console.log('🎮 Ground Defender Loading...');
     
-    // ایجاد instance از بازی
+    // Create game instance
     game = new GameEngine();
     
-    // نمایش high score در منو
+    // Show high score in menu
     game.scoreManager.updateDisplay();
     
     console.log('✅ Game Ready!');
 });
 
-// جلوگیری از Scroll با کلیدها
+
+// Prevent scrolling with keys
 window.addEventListener('keydown', (e) => {
     if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
         e.preventDefault();

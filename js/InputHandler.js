@@ -1,4 +1,5 @@
-// کلاس مدیریت ورودی کیبورد
+// Keyboard Input Management Class
+
 
 class InputHandler {
     constructor() {
@@ -10,7 +11,7 @@ class InputHandler {
         window.addEventListener('keydown', (e) => {
             this.keys.set(e.key, true);
             
-            // جلوگیری از اسکرول با فلش‌ها و Space
+            // Prevent scrolling with arrow keys and Space
             if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
                 e.preventDefault();
             }

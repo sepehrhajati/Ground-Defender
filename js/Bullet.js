@@ -1,9 +1,10 @@
-// کلاس گلوله
+// Bullet Class
+
 
 class Bullet extends GameObject {
     constructor(x, y) {
         super(x, y, 6, 15);
-        this.velocity = -1000; // به سمت بالا
+        this.velocity = -1000; // Upwards
         this.color = '#FFD700';
     }
     

@@ -1,8 +1,9 @@
-// کلاس دشمن
+// Enemy Class
+
 
 class Enemy extends GameObject {
     constructor(x, difficulty) {
-        super(x, -50, 50, 50); // تغییر از 30×30 به 50×50
+        super(x, -50, 50, 50); // Changed from 30x30 to 50x50
         this.baseSpeed = this.getSpeedByDifficulty(difficulty);
         this.velocityY = 0;
         this.gravity = 200;
@@ -20,22 +21,22 @@ class Enemy extends GameObject {
     }
     
     draw(ctx) {
-        // رسم دشمن (مربع)
+        // Draw enemy (square)
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
         
-        // رسم چشم‌ها (تنظیم شده برای سایز جدید)
+        // Draw eyes (adjusted for new size)
         ctx.fillStyle = '#fff';
-        ctx.fillRect(this.x + 12, this.y + 15, 10, 10);  // چشم چپ
-        ctx.fillRect(this.x + 28, this.y + 15, 10, 10);  // چشم راست
+        ctx.fillRect(this.x + 12, this.y + 15, 10, 10);  // Left eye
+        ctx.fillRect(this.x + 28, this.y + 15, 10, 10);  // Right eye
         
-        // رسم دهان (اضافه کردم برای جذاب‌تر شدن)
+        // Draw mouth (added for visual appeal)
         ctx.fillStyle = '#000';
         ctx.fillRect(this.x + 15, this.y + 35, 20, 3);
     }
     
     update(deltaTime) {
-        // سقوط با گرانش
+        // Fall with gravity
         this.velocityY += this.gravity * deltaTime;
         this.y += this.velocityY * deltaTime;
     }

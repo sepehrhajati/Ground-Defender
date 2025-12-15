@@ -1,4 +1,5 @@
-// کلاس پایه برای تمام اشیاء بازی
+// Base class for all game objects
+
 
 class GameObject {
     constructor(x, y, width, height) {
@@ -10,11 +11,11 @@ class GameObject {
     }
     
     draw(ctx) {
-        // باید در کلاس‌های فرزند Override شود
+        // Must be overridden in child classes
     }
     
     update(deltaTime) {
-        // باید در کلاس‌های فرزند Override شود
+        // Must be overridden in child classes
     }
     
     checkCollision(otherObject) {

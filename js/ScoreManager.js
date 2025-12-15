@@ -1,4 +1,5 @@
-// کلاس مدیریت امتیازات
+// Score Management Class
+
 
 class ScoreManager {
     constructor() {
@@ -11,7 +12,7 @@ class ScoreManager {
         this.currentScore += points;
         this.updateDisplay();
         
-        // بررسی رکورد جدید
+        // Check for new record
         if (this.currentScore > this.highScore) {
             this.highScore = this.currentScore;
         }

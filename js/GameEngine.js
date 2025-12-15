@@ -1,15 +1,16 @@
-// موتور اصلی بازی
+// Main Game Engine
+
 
 class GameEngine {
     constructor() {
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
         
-        // تنظیم اندازه Canvas
+        // Set Canvas Size
         this.canvas.width = 800;
         this.canvas.height = 600;
         
-        // State بازی
+        // Game State
         this.gameState = 'MENU'; // MENU, RUNNING, PAUSED, GAME_OVER
         this.difficulty = 'easy';
         
@@ -24,7 +25,7 @@ class GameEngine {
         
         // Timers
         this.enemySpawnTimer = 0;
-        this.enemySpawnInterval = 2000; // میلی‌ثانیه
+        this.enemySpawnInterval = 2000; // milliseconds
         
         // Animation
         this.lastTime = 0;
@@ -36,7 +37,7 @@ class GameEngine {
         this.scoreManager.setDifficulty(difficulty);
         this.scoreManager.reset();
         
-        // تنظیم فاصله spawn بر اساس سختی
+        // Set spawn interval based on difficulty
         switch(difficulty) {
             case 'easy':
                 this.enemySpawnInterval = 2000;
@@ -49,21 +50,21 @@ class GameEngine {
                 break;
         }
         
-        // ایجاد Player
+        // Create Player
         const playerX = this.canvas.width / 2 - 20;
         const playerY = this.canvas.height - 60;
         this.player = new Player(playerX, playerY);
         
-        // پاک کردن آرایه‌ها
+        // Clear arrays
         this.enemies = [];
         this.bullets = [];
         
-        // تنظیم UI
+        // Setup UI
         this.showScreen('game-screen');
         document.getElementById('difficulty').textContent = this.getDifficultyText(difficulty);
         this.scoreManager.updateDisplay();
         
-        // شروع Game Loop
+        // Start Game Loop
         this.gameState = 'RUNNING';
         this.lastTime = performance.now();
         this.gameLoop(this.lastTime);
@@ -74,7 +75,7 @@ class GameEngine {
             return;
         }
         
-        // محاسبه deltaTime (به ثانیه)
+        // Calculate deltaTime (in seconds)
         const deltaTime = (currentTime - this.lastTime) / 1000;
         this.lastTime = currentTime;
         
@@ -84,12 +85,12 @@ class GameEngine {
         // Render
         this.render();
         
-        // درخواست فریم بعدی
+        // Request next frame
         this.animationId = requestAnimationFrame((time) => this.gameLoop(time));
     }
     
     update(deltaTime) {
-        // بررسی Input
+        // Check Input
         this.handleInput(deltaTime);
         
         // Update Player
@@ -101,22 +102,22 @@ class GameEngine {
         // Update Enemies
         this.enemies.forEach(enemy => enemy.update(deltaTime));
         
-        // Spawn دشمن
+        // Spawn Enemy
         this.enemySpawnTimer += deltaTime * 1000;
         if (this.enemySpawnTimer >= this.enemySpawnInterval) {
             this.spawnEnemy();
             this.enemySpawnTimer = 0;
         }
         
-        // بررسی برخوردها
+        // Check Collisions
         this.checkCollisions();
         
-        // پاک کردن اشیاء غیرفعال
+        // Cleanup inactive objects
         this.cleanup();
     }
     
     handleInput(deltaTime) {
-        // حرکت
+        // Movement
         if (this.inputHandler.isKeyPressed('ArrowLeft')) {
             this.player.moveLeft(deltaTime);
         }
@@ -124,16 +125,16 @@ class GameEngine {
             this.player.moveRight(deltaTime);
         }
         
-        // پرش
+        // Jump
         if (this.inputHandler.isKeyPressed('ArrowUp')) {
             this.player.jump();
         }
         
-        // شلیک
+        // Shoot
         if (this.inputHandler.isKeyPressed(' ')) {
             const bullet = this.player.shoot();
             this.bullets.push(bullet);
-            // جلوگیری از شلیک مداوم
+            // Prevent continuous shooting
             this.inputHandler.keys.set(' ', false);
         }
         
@@ -151,7 +152,7 @@ class GameEngine {
     }
     
     checkCollisions() {
-        // برخورد Bullet با Enemy
+        // Bullet vs Enemy Collision
         this.bullets.forEach(bullet => {
             this.enemies.forEach(enemy => {
                 if (bullet.isActive && enemy.isActive && bullet.checkCollision(enemy)) {
@@ -162,7 +163,7 @@ class GameEngine {
             });
         });
         
-        // برخورد Enemy با Player
+        // Enemy vs Player Collision
         this.enemies.forEach(enemy => {
             if (enemy.isActive && enemy.checkCollision(this.player)) {
                 this.gameOver();
@@ -171,15 +172,15 @@ class GameEngine {
     }
     
     cleanup() {
-        // حذف گلوله‌های خارج از صفحه
+        // Remove off-screen bullets
         this.bullets = this.bullets.filter(bullet => 
             bullet.isActive && !bullet.isOutOfBounds(this.canvas.width, this.canvas.height)
         );
         
-        // حذف دشمنان غیرفعال یا خارج از صفحه
+        // Remove inactive or off-screen enemies
         this.enemies = this.enemies.filter(enemy => {
             if (enemy.y > this.canvas.height) {
-                // دشمن از پایین خارج شد = Game Over
+                // Enemy reached the bottom = Game Over
                 this.gameOver();
                 return false;
             }
@@ -188,11 +189,11 @@ class GameEngine {
     }
     
     render() {
-        // پاک کردن Canvas
+        // Clear Canvas
         this.ctx.fillStyle = '#0f0f1e';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         
-        // رسم خط زمین
+        // Draw Ground Line
         this.ctx.strokeStyle = '#4ECDC4';
         this.ctx.lineWidth = 3;
         this.ctx.beginPath();
@@ -200,13 +201,13 @@ class GameEngine {
         this.ctx.lineTo(this.canvas.width, this.canvas.height - 50);
         this.ctx.stroke();
         
-        // رسم Player
+        // Draw Player
         this.player.draw(this.ctx);
         
-        // رسم Bullets
+        // Draw Bullets
         this.bullets.forEach(bullet => bullet.draw(this.ctx));
         
-        // رسم Enemies
+        // Draw Enemies
         this.enemies.forEach(enemy => enemy.draw(this.ctx));
     }
     
@@ -231,10 +232,10 @@ class GameEngine {
         this.gameState = 'GAME_OVER';
         cancelAnimationFrame(this.animationId);
         
-        // ذخیره امتیاز
+        // Save Score
         this.scoreManager.saveHighScore();
         
-        // نمایش صفحه Game Over
+        // Show Game Over Screen
         document.getElementById('final-score').textContent = this.scoreManager.currentScore;
         document.getElementById('final-high-score').textContent = this.scoreManager.highScore;
         
@@ -255,20 +256,20 @@ class GameEngine {
     }
     
     showScreen(screenId) {
-        // پنهان کردن همه صفحات
+        // Hide all screens
         document.querySelectorAll('.screen').forEach(screen => {
             screen.classList.add('hidden');
         });
         
-        // نمایش صفحه مورد نظر
+        // Show target screen
         document.getElementById(screenId).classList.remove('hidden');
     }
     
     getDifficultyText(difficulty) {
         const texts = {
-            'easy': 'آسان 🟢',
-            'medium': 'متوسط 🟡',
-            'hard': 'سخت 🔴'
+            'easy': 'Easy 🟢',
+            'medium': 'Medium 🟡',
+            'hard': 'Hard 🔴'
         };
         return texts[difficulty] || difficulty;
     }

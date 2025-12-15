@@ -1,9 +1,10 @@
-// کلاس بازیکن
+// Player Class
+
 
 class Player extends GameObject {
     constructor(x, y) {
         super(x, y, 40, 40);
-        this.speed = 800; // پیکسل در ثانیه
+        this.speed = 800; // pixels per second
         this.velocityY = 0;
         this.isJumping = false;
         this.jumpPower = -400;
@@ -13,7 +14,7 @@ class Player extends GameObject {
     }
     
     draw(ctx) {
-        // رسم بازیکن (مثلث)
+        // Draw player (triangle)
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.moveTo(this.x + this.width / 2, this.y);
@@ -22,13 +23,13 @@ class Player extends GameObject {
         ctx.closePath();
         ctx.fill();
         
-        // رسم سلاح
+        // Draw weapon
         ctx.fillStyle = '#FFA07A';
         ctx.fillRect(this.x + this.width / 2 - 3, this.y - 10, 6, 10);
     }
     
     update(deltaTime, canvasWidth) {
-        // اعمال گرانش
+        // Apply gravity
         if (this.y < this.groundY) {
             this.velocityY += this.gravity * deltaTime;
             this.y += this.velocityY * deltaTime;
@@ -40,7 +41,7 @@ class Player extends GameObject {
             }
         }
         
-        // محدود کردن حرکت در Canvas
+        // Constrain movement within Canvas
         this.x = Utils.clamp(this.x, 0, canvasWidth - this.width);
     }
     

@@ -3,7 +3,7 @@
 class Player extends GameObject {
     constructor(x, y) {
         super(x, y, 40, 40);
-        this.speed = 300; // پیکسل در ثانیه
+        this.speed = 800; // پیکسل در ثانیه
         this.velocityY = 0;
         this.isJumping = false;
         this.jumpPower = -400;

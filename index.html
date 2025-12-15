@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ground Defender - مدافع زمین</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+    <!-- صفحه منو -->
+    <div id="menu-screen" class="screen">
+        <h1>🎮 Ground Defender</h1>
+        <h2>مدافع زمین</h2>
+        <p>دشمنان از آسمان می‌آیند. آن‌ها را قبل از برخورد نابود کن!</p>
+        
+        <div class="difficulty-selection">
+            <h3>سطح سختی را انتخاب کنید:</h3>
+            <button class="btn" onclick="game.startGame('easy')">آسان 🟢</button>
+            <button class="btn" onclick="game.startGame('medium')">متوسط 🟡</button>
+            <button class="btn" onclick="game.startGame('hard')">سخت 🔴</button>
+        </div>
+        
+        <div class="high-score">
+            <h3>بهترین امتیاز:</h3>
+            <p id="menu-high-score">0</p>
+        </div>
+        
+        <div class="controls-info">
+            <h3>نحوه بازی:</h3>
+            <p>← → : حرکت | Space: شلیک | ESC: توقف</p>
+        </div>
+    </div>
+
+    <!-- صفحه بازی -->
+    <div id="game-screen" class="screen hidden">
+        <div class="game-info">
+            <div class="info-item">
+                <span>امتیاز: </span>
+                <span id="score">0</span>
+            </div>
+            <div class="info-item">
+                <span>رکورد: </span>
+                <span id="high-score">0</span>
+            </div>
+            <div class="info-item">
+                <span>سطح: </span>
+                <span id="difficulty">-</span>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas"></canvas>
+        
+        <div id="pause-overlay" class="overlay hidden">
+            <h2>⏸️ توقف موقت</h2>
+            <button class="btn" onclick="game.resumeGame()">ادامه بازی</button>
+            <button class="btn" onclick="game.backToMenu()">بازگشت به منو</button>
+        </div>
+    </div>
+
+    <!-- صفحه Game Over -->
+    <div id="gameover-screen" class="screen hidden">
+        <h1>💀 Game Over</h1>
+        <div class="game-stats">
+            <h3>امتیاز شما: <span id="final-score">0</span></h3>
+            <h3>بهترین امتیاز: <span id="final-high-score">0</span></h3>
+            <p id="new-record" class="hidden">🎉 رکورد جدید! 🎉</p>
+        </div>
+        <button class="btn" onclick="game.backToMenu()">بازی دوباره</button>
+    </div>
+
+    <!-- اسکریپت‌ها -->
+    <script src="js/utils.js"></script>
+    <script src="js/GameObject.js"></script>
+    <script src="js/Player.js"></script>
+    <script src="js/Enemy.js"></script>
+    <script src="js/Bullet.js"></script>
+    <script src="js/InputHandler.js"></script>
+    <script src="js/ScoreManager.js"></script>
+    <script src="js/GameEngine.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

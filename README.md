@@ -24,7 +24,6 @@ Ground Defender is a fast-paced arcade-style game where you defend your ground f
 
 ### Controls
 - **Arrow Left/Right** (← →): Move player
-- **Arrow Up** (↑) or **Space**: Jump
 - **Space**: Shoot
 - **ESC**: Pause game
 
